@@ -1,10 +1,37 @@
-The task is design the washing machine application.Application has the API to start the machine stop the machine and set the machine programes.
-Application is using the spring boot to build the API, and Mockito for Junit.
+### Requirment
+Make a application to controll the WashingMachine
+
+### Implementation
+Application is using the spring boot servises to building the applications, there are mainly 5 servises start,stop,state, functions, set programe.
+start service is being used to start the washing machine it calles the startProgram() method to execute the task.
+Stop Service is being used to stop the washing machine it calles the stopProgram() method to execute the task.
+State  Service is being used to stop the washing machine it calles the getStatus() method to execute the task.
+Set Programe Service is being used to set the  the washing machine  programe it calles the setProgram method to execute the task.
+
+
+## Technology used
+Application uses the mvn to build the project.
+Application is using JPA for the data access
+Application is using the Spring boot to build the servises.
+Application is using mockito to test the application.
+Application is using the h2 db for database.
 
 
 
+### How to import and run in eclipse
 
-###How to install and run
+1) Open Eclipse
+2) Click File > Import
+3) Type Maven in the search box under Select an import source:
+4) Select Existing Maven Projects
+5) Click Next
+6) Click Browse and select the folder that is the root of the Maven project (probably contains the pom.xml file)
+7) Click Next
+8) Click Finish
+9) Right click on project go to Run As, select mvn install.
+10)Right click on WashingMachineBootStarp.java Select Run as java programe.
+
+### How to run and install using spring CLI.
 
 `$ mvn spring-boot:run`
 
