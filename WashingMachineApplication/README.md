@@ -1,5 +1,5 @@
 ### Requirment
-Make a application to controll the WashingMachine
+Write code  to controll the WashingMachine
 
 ### Implementation
 Application is using the spring boot servises to building the applications, there are mainly 5 servises start,stop,state, functions, set programe.
@@ -11,10 +11,11 @@ Set Programe Service is being used to set the  the washing machine  programe it 
 
 ## Technology used
 Application uses the mvn to build the project.
-Application is using JPA for the data access
+Application is using JPA for the persistance layer.
 Application is using the Spring boot to build the servises.
 Application is using mockito to test the application.
 Application is using the h2 db for database.
+log4j for logging the log.
 
 
 
