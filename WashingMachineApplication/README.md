@@ -15,6 +15,7 @@ User calles the API
 Request comes to the controller layer.
 From controller it Contact to the service layer.
 From Service layer it contact to the repository layer.
+From Repository response come back to the client via service and controller.
 
 ## Technology used
 Application uses the mvn to build the project.
