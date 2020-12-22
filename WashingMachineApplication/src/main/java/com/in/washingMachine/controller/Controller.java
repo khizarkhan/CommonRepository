@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping(value = "/rest")
-@Api(value = "Washing Machine REST Control", description = "Operations pertaining to Washing Machine")
+@Api(value = "Washing Machine REST Control", description = "Operations to controll the washing Machine")
 public class Controller {
     private final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
