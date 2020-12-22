@@ -2,12 +2,19 @@
 Write code  to controll the WashingMachine
 
 ### Implementation
-Application is using the spring boot servises to building the applications, there are mainly 5 servises start,stop,state, functions, set programe.
+Application is using the spring boot to building the applications, there are mainly 5 services start,stop,state, functions, set programe.
 start service is being used to start the washing machine it calles the startProgram() method to execute the task.
 Stop Service is being used to stop the washing machine it calles the stopProgram() method to execute the task.
 State  Service is being used to stop the washing machine it calles the getStatus() method to execute the task.
 Set Programe Service is being used to set the  the washing machine  programe it calles the setProgram method to execute the task.
 
+
+### Normal Flow
+
+User calles the API
+Request comes to the controller layer.
+From controller it Contact to the service layer.
+From Service layer it contact to the repository layer.
 
 ## Technology used
 Application uses the mvn to build the project.
