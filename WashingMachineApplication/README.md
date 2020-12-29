@@ -50,14 +50,13 @@ log4j for logging the log.
 `http://localhost:8080/swagger-ui.html#/`
 
 
-`GET /rest/program/{number}` - Set the washing machine programe
 
-`GET /rest/machineFunctions` - View all appliance programs: shows all programs descriptions
+`POST /rest/creteWashingMachine` - Create the WashingMachine
 
-`GET /rest/startWashingMachine` - Start the washing machine
+`PUT /rest/startWashingMachine` - Start the washing machine
 
 `GET /rest/washingMachineState` - Show the state of washing Machine
 
-`GET /rest/stopWashingMachine` - Stop the washing machine
+`PUT /rest/stopWashingMachine` - Stop the washing machine
 
 
