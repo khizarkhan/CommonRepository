@@ -3,10 +3,6 @@ package com.in.washingMachine.rest.controllerTest;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,19 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Dynamic;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.in.washingMachine.controller.Controller;
-import com.in.washingMachine.process.Drying;
-import com.in.washingMachine.process.Squeaking;
-import com.in.washingMachine.process.Washing;
-import com.in.washingMachine.rest.service.WashingMachineInitilizationService;
-import com.in.washingMachine.rest.service.WashingMachineProgrameExecutionService;
-import com.in.washingMachine.service.WashingMachineDryingService;
-import com.in.washingMachine.service.WashingMachineFunctionService;
-import com.in.washingMachine.service.WashingMachineSqueakingService;
-import com.in.washingMachine.service.WashingMachineWashService;
+import com.in.washingMachine.service.WashingMachineService;
 import com.in.washingMachine.vo.WashingMachine;
-import com.in.washingMachine.vo.programe.WashingMachineFunction;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(Controller.class)
@@ -42,81 +29,53 @@ public class ControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private WashingMachineProgrameExecutionService washingMachineExecuterService;
+	private WashingMachineService washingMachineService;
 
-	@MockBean
-	private WashingMachineInitilizationService washingMachineInitilizationService;
-	
-	
 	@InjectMocks
 	private WashingMachine washingMachine;
-	
-
-	   
-	@Before
-	public void setUp() {
-		WashingMachineFunction washingMachineFunction = new WashingMachineFunction();
-	    List<WashingMachineFunction> programs = getWashingMachineFunction(washingMachineFunction);
-		given(washingMachineInitilizationService.getWashingMachine()).willReturn(washingMachine);
-		washingMachine.setPrograms(programs);
-	}
-	
-
-	private List<WashingMachineFunction> getWashingMachineFunction(WashingMachineFunction washingMachineFunction) {
-		List<WashingMachineFunction> programs = new ArrayList<>();
-		
-		washingMachineFunction.setDrying(new Drying(10000L, 40, 10));
-		washingMachineFunction.setSqueaking(new Squeaking(5000L, -1, 800));
-		washingMachineFunction.setWashing(new Washing(20000L, 60, 30));
-		programs.add(washingMachineFunction);
-		return programs;
-	}
-
 
 	@Test
-	public void testChoseTheWashingMachineFunctions() throws Exception {
-		String urlTemplate = "/rest/program/"+0;
-		mockMvc.perform(MockMvcRequestBuilders
-				.get(urlTemplate)
-				.contentType(MediaType.APPLICATION_JSON)
+	public void testCreateWashinhMachine() throws Exception {
+		String urlTemplate = "/rest/creteWashingMachine/";
+		WashingMachine washingMacine = new WashingMachine("Electroleac", "Started", "200");
+		given(washingMachineService.createWashingMachine(washingMacine)).willReturn(washingMacine);
+		mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate).contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(new WashingMachine("Electroleac", "Started", "200")))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-		verify(washingMachineExecuterService, VerificationModeFactory.times(1)).setProgram(washingMachineInitilizationService.getWashingMachine().getPrograms().get(0));
-		
 	}
 
 	@Test
 	public void testGetCurrentStatusOfWashingMachine() throws Exception {
-		
+
 		String urlTemplate = "/rest/washingMachineState/";
-		mockMvc.perform(MockMvcRequestBuilders
-				.get(urlTemplate)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-		verify(washingMachineExecuterService, VerificationModeFactory.times(1)).getStatus();
+		mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		verify(washingMachineService, VerificationModeFactory.times(1)).getWashingMachineStatus();
 	}
 
 	@Test
 	public void testStartTheWashingMachine() throws Exception {
 		String urlTemplate = "/rest/startWashingMachine/";
-		mockMvc.perform(MockMvcRequestBuilders
-				.get(urlTemplate)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-		verify(washingMachineExecuterService, VerificationModeFactory.times(1)).startProgram();
+		mockMvc.perform(MockMvcRequestBuilders.put(urlTemplate).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		verify(washingMachineService, VerificationModeFactory.times(1)).startWashingMachine();
 	}
 
 	@Test
 	public void testStopTheWashingMachine() throws Exception {
 		String urlTemplate = "/rest/stopWashingMachine/";
-		mockMvc.perform(MockMvcRequestBuilders
-				.get(urlTemplate)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-		verify(washingMachineExecuterService, VerificationModeFactory.times(1)).stopProgram();
+		mockMvc.perform(MockMvcRequestBuilders.put(urlTemplate).contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		verify(washingMachineService, VerificationModeFactory.times(1)).stopWashingMachine();
 	}
 
+	public static byte[] asJsonString(final Object obj) {
+		try {
+			return new ObjectMapper().writeValueAsBytes(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
 }
